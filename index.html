@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Sayfası için QR Kod Oluşturucu</title>
+    <title>Renkli QR Kod Oluşturucu</title>
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,7 +25,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             background: rgba(25, 25, 45, 0.7);
             border-radius: 20px;
@@ -59,57 +58,37 @@
             line-height: 1.6;
         }
         
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        
-        .step {
-            flex: 1;
-            min-width: 200px;
-            background: rgba(40, 40, 70, 0.6);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 10px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(92, 107, 192, 0.2);
-        }
-        
-        .step:hover {
-            transform: translateY(-10px);
-            background: rgba(50, 50, 90, 0.7);
-        }
-        
-        .step i {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #4cc9f0;
-        }
-        
-        .step h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #f8f9fa;
-        }
-        
-        .step p {
-            color: #c1c8ff;
-            line-height: 1.6;
-        }
-        
         .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .url-section, .color-section {
             background: rgba(30, 30, 55, 0.6);
             border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
+            padding: 25px;
             border: 1px solid rgba(67, 97, 238, 0.2);
         }
         
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: #4cc9f0;
+        }
+        
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         label {
@@ -117,11 +96,14 @@
             margin-bottom: 10px;
             font-size: 1.1rem;
             color: #a3b1ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        input {
+        input[type="url"], input[type="text"] {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border-radius: 10px;
             border: 2px solid #3a3a5c;
             background: rgba(20, 20, 35, 0.7);
@@ -136,6 +118,29 @@
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
         }
         
+        .color-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .color-input {
+            flex: 1;
+        }
+        
         .qr-container {
             display: flex;
             flex-direction: column;
@@ -148,15 +153,16 @@
         }
         
         #qrcode {
-            width: 250px;
-            height: 250px;
+            width: 300px;
+            height: 300px;
             display: flex;
             justify-content: center;
             align-items: center;
             background: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         .btn {
@@ -193,6 +199,10 @@
             background: linear-gradient(to right, #f72585, #b5179e);
         }
         
+        .btn-preset {
+            background: linear-gradient(to right, #7209b7, #560bad);
+        }
+        
         .btn i {
             font-size: 1.2rem;
         }
@@ -202,41 +212,35 @@
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
+            gap: 15px;
         }
         
-        .instructions {
-            background: rgba(30, 30, 55, 0.6);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 30px;
-            border: 1px solid rgba(67, 97, 238, 0.2);
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
         }
         
-        .instructions h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #4cc9f0;
-            text-align: center;
+        .preset-btn {
+            padding: 8px 15px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
-        .instructions ol {
-            padding-left: 25px;
-            margin-bottom: 20px;
+        .preset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
-        .instructions li {
-            margin-bottom: 15px;
-            line-height: 1.6;
-            color: #c1c8ff;
-        }
-        
-        .instructions p {
-            font-style: italic;
-            text-align: center;
-            color: #a3b1ff;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(92, 107, 192, 0.3);
+        .preset-btn i {
+            font-size: 0.9rem;
         }
         
         footer {
@@ -249,20 +253,17 @@
         }
         
         @media (max-width: 768px) {
-            .steps {
-                flex-direction: column;
-            }
-            
-            .step {
-                margin: 10px 0;
-            }
-            
             h1 {
                 font-size: 2.2rem;
             }
             
             .container {
                 padding: 25px;
+            }
+            
+            #qrcode {
+                width: 250px;
+                height: 250px;
             }
         }
         
@@ -284,53 +285,97 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .color-controls {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-qrcode"></i> GitHub Sayfası için QR Kod Oluşturucu</h1>
-            <p class="subtitle">GitHub Pages'te barındırdığınız web sitenizin URL'sini girin, anında QR kodu oluşturun ve kolayca paylaşın!</p>
+            <h1><i class="fas fa-qrcode"></i> Renkli QR Kod Oluşturucu</h1>
+            <p class="subtitle">GitHub sayfanız için özel renklerde QR kodu oluşturun! Siyah-beyaz, beyaz-siyah veya istediğiniz renk kombinasyonunu seçin.</p>
         </header>
         
-        <div class="steps">
-            <div class="step">
-                <i class="fas fa-link"></i>
-                <h3>1. GitHub URL'si</h3>
-                <p>GitHub Pages sitenizin URL'sini aşağıdaki alana girin</p>
+        <div class="form-container">
+            <div class="url-section">
+                <div class="section-title">
+                    <i class="fas fa-link"></i>
+                    <h3>URL Bilgileri</h3>
+                </div>
+                
+                <div class="input-group">
+                    <label for="github-url"><i class="fas fa-globe"></i> GitHub Sayfası URL'si:</label>
+                    <input type="url" id="github-url" placeholder="https://kullaniciadiniz.github.io/repositoriniz/" value="">
+                </div>
+                
+                <div class="input-group">
+                    <label for="qr-text"><i class="fas fa-font"></i> QR Kod Metni (isteğe bağlı):</label>
+                    <input type="text" id="qr-text" placeholder="Özel metin veya bağlantı">
+                </div>
             </div>
-            <div class="step">
-                <i class="fas fa-qrcode"></i>
-                <h3>2. QR Kod Oluştur</h3>
-                <p>"QR Kod Oluştur" butonuna tıklayın</p>
-            </div>
-            <div class="step">
-                <i class="fas fa-download"></i>
-                <h3>3. İndirin & Paylaşın</h3>
-                <p>Oluşan QR kodunu indirin ve paylaşın</p>
+            
+            <div class="color-section">
+                <div class="section-title">
+                    <i class="fas fa-palette"></i>
+                    <h3>Renk Özelleştirme</h3>
+                </div>
+                
+                <div class="color-controls">
+                    <div class="input-group">
+                        <label><i class="fas fa-square" style="color: #000000;"></i> Koyu Renk:</label>
+                        <div class="color-picker">
+                            <div class="color-preview" id="dark-preview" style="background: #000000;"></div>
+                            <input type="color" class="color-input" id="dark-color" value="#000000">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-square" style="color: #ffffff;"></i> Açık Renk:</label>
+                        <div class="color-picker">
+                            <div class="color-preview" id="light-preview" style="background: #ffffff;"></div>
+                            <input type="color" class="color-input" id="light-color" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-magic"></i> Hızlı Renk Seçenekleri:</label>
+                    <div class="preset-buttons">
+                        <button class="preset-btn" data-dark="#000000" data-light="#ffffff" style="background: #000; color: #fff;">
+                            <i class="fas fa-moon"></i> Siyah-Beyaz
+                        </button>
+                        <button class="preset-btn" data-dark="#ffffff" data-light="#000000" style="background: #fff; color: #000;">
+                            <i class="fas fa-sun"></i> Beyaz-Siyah
+                        </button>
+                        <button class="preset-btn" data-dark="#4361ee" data-light="#ffffff">
+                            <i class="fas fa-palette"></i> Mavi
+                        </button>
+                        <button class="preset-btn" data-dark="#f72585" data-light="#ffffff">
+                            <i class="fas fa-palette"></i> Pembe
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="form-container">
-            <div class="input-group">
-                <label for="github-url"><i class="fas fa-globe"></i> GitHub Sayfası URL'si:</label>
-                <input type="url" id="github-url" placeholder="https://kullaniciadiniz.github.io/repositoriniz/" value="">
-            </div>
-            
-            <div class="button-group">
-                <button class="btn" id="generate-btn">
-                    <i class="fas fa-bolt"></i> QR Kod Oluştur
-                </button>
-                <button class="btn btn-reset" id="reset-btn">
-                    <i class="fas fa-redo"></i> Sıfırla
-                </button>
-            </div>
+        <div class="button-group">
+            <button class="btn" id="generate-btn">
+                <i class="fas fa-bolt"></i> QR Kod Oluştur
+            </button>
+            <button class="btn btn-preset" id="default-colors-btn">
+                <i class="fas fa-undo"></i> Varsayılan Renkler
+            </button>
+            <button class="btn btn-reset" id="reset-btn">
+                <i class="fas fa-redo"></i> Sıfırla
+            </button>
         </div>
         
         <div class="qr-container">
             <div id="qrcode">
-                <p style="color: #666; text-align: center;">QR kodunuz burada görünecek</p>
+                <p style="color: #666; text-align: center; max-width: 80%;">Özelleştirilmiş QR kodunuz burada görünecek</p>
             </div>
             
             <div class="button-group">
@@ -339,50 +384,70 @@
                 </button>
             </div>
         </div>
-        
-        <div class="instructions">
-            <h2><i class="fas fa-info-circle"></i> Nasıl Kullanılır?</h2>
-            <ol>
-                <li>GitHub Pages sitenizin URL'sini üstteki kutuya girin (örnek: https://kullaniciadiniz.github.io/repositoriniz/)</li>
-                <li>"QR Kod Oluştur" butonuna tıklayın</li>
-                <li>Oluşan QR kodu görüntülenecektir</li>
-                <li>"QR Kodunu İndir" butonuna tıklayarak PNG formatında indirin</li>
-                <li>İndirdiğiniz QR kodu yazdırabilir, sosyal medyada paylaşabilir veya web sitenize ekleyebilirsiniz</li>
-            </ol>
-            <p>Artık kullanıcılar telefonlarıyla QR kodu tarayarak sitenize kolayca erişebilir!</p>
-        </div>
     </div>
     
     <footer>
-        <p>GitHub QR Kod Oluşturucu | © 2023 Tüm hakları saklıdır</p>
+        <p>Renkli QR Kod Oluşturucu | © 2023 Tüm hakları saklıdır</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Elementler
             const githubUrlInput = document.getElementById('github-url');
+            const qrTextInput = document.getElementById('qr-text');
+            const darkColorInput = document.getElementById('dark-color');
+            const lightColorInput = document.getElementById('light-color');
+            const darkPreview = document.getElementById('dark-preview');
+            const lightPreview = document.getElementById('light-preview');
             const generateBtn = document.getElementById('generate-btn');
             const downloadBtn = document.getElementById('download-btn');
             const resetBtn = document.getElementById('reset-btn');
+            const defaultColorsBtn = document.getElementById('default-colors-btn');
             const qrcodeDiv = document.getElementById('qrcode');
+            const presetButtons = document.querySelectorAll('.preset-btn');
             
             let qrcode = null;
             
-            // Örnek URL ekle (kullanıcı adını ve repo adını değiştirin)
-            githubUrlInput.value = "https://kullaniciadiniz.github.io/repositoriniz/";
+            // Renk seçicileri güncelleme
+            function updateColorPreviews() {
+                darkPreview.style.backgroundColor = darkColorInput.value;
+                lightPreview.style.backgroundColor = lightColorInput.value;
+            }
             
+            darkColorInput.addEventListener('input', updateColorPreviews);
+            lightColorInput.addEventListener('input', updateColorPreviews);
+            
+            // Ön tanımlı renk butonları
+            presetButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const dark = this.getAttribute('data-dark');
+                    const light = this.getAttribute('data-light');
+                    
+                    darkColorInput.value = dark;
+                    lightColorInput.value = light;
+                    updateColorPreviews();
+                });
+            });
+            
+            // Varsayılan renklere dönme
+            defaultColorsBtn.addEventListener('click', function() {
+                darkColorInput.value = '#000000';
+                lightColorInput.value = '#ffffff';
+                updateColorPreviews();
+            });
+            
+            // QR kod oluşturma
             generateBtn.addEventListener('click', function() {
-                const url = githubUrlInput.value.trim();
+                let content = githubUrlInput.value.trim();
                 
-                if (!url) {
-                    alert('Lütfen bir GitHub URL girin!');
-                    return;
+                // Eğer URL yoksa metin alanını kontrol et
+                if (!content) {
+                    content = qrTextInput.value.trim();
                 }
                 
-                // Geçerli bir GitHub Pages URL'si mi kontrol et
-                if (!url.startsWith('https://') || !url.includes('github.io')) {
-                    if (!confirm('Bu geçerli bir GitHub Pages URL\'si gibi görünmüyor. Yine de devam etmek istiyor musunuz?')) {
-                        return;
-                    }
+                if (!content) {
+                    alert('Lütfen bir URL veya metin girin!');
+                    return;
                 }
                 
                 // Önceki QR kodunu temizle
@@ -390,11 +455,11 @@
                 
                 // Yeni QR kod oluştur
                 qrcode = new QRCode(qrcodeDiv, {
-                    text: url,
-                    width: 250,
-                    height: 250,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
+                    text: content,
+                    width: 280,
+                    height: 280,
+                    colorDark: darkColorInput.value,
+                    colorLight: lightColorInput.value,
                     correctLevel: QRCode.CorrectLevel.H
                 });
                 
@@ -402,6 +467,7 @@
                 downloadBtn.disabled = false;
             });
             
+            // QR kodunu indirme
             downloadBtn.addEventListener('click', function() {
                 if (!qrcode) {
                     alert('Önce bir QR kodu oluşturmalısınız!');
@@ -416,17 +482,25 @@
                 
                 // Canvas'ı PNG'ye dönüştür
                 const link = document.createElement('a');
-                link.download = 'github-qrcode.png';
+                link.download = 'ozel-qrcode.png';
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
             
+            // Formu sıfırlama
             resetBtn.addEventListener('click', function() {
                 githubUrlInput.value = '';
-                qrcodeDiv.innerHTML = '<p style="color: #666; text-align: center;">QR kodunuz burada görünecek</p>';
+                qrTextInput.value = '';
+                darkColorInput.value = '#000000';
+                lightColorInput.value = '#ffffff';
+                updateColorPreviews();
+                qrcodeDiv.innerHTML = '<p style="color: #666; text-align: center; max-width: 80%;">Özelleştirilmiş QR kodunuz burada görünecek</p>';
                 downloadBtn.disabled = true;
                 qrcode = null;
             });
+            
+            // Başlangıçta renk önizlemelerini güncelle
+            updateColorPreviews();
         });
     </script>
 </body>
