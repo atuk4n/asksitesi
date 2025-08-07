@@ -1,249 +1,433 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Özel Aşk Testi</title>
+    <title>GitHub Sayfası için QR Kod Oluşturucu</title>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            text-align: center;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: #d32f2f;
-            padding: 20px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #e6e6e6;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            padding: 30px 20px;
         }
+        
         .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            background: rgba(25, 25, 45, 0.7);
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border: 3px solid #ff6b6b;
-        }
-        h1 {
-            color: #e91e63;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        .input-group {
-            margin: 20px 0;
-        }
-        input {
-            padding: 12px 15px;
-            margin: 10px 0;
-            width: 80%;
-            border: 2px solid #ffcdd2;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        input:focus {
-            border-color: #e91e63;
-            box-shadow: 0 0 10px rgba(233, 30, 99, 0.3);
-            outline: none;
-        }
-        button {
-            padding: 12px 30px;
-            background: linear-gradient(to right, #e91e63, #ff5722);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 20px 0;
-            transition: all 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-        button:active {
-            transform: translateY(1px);
-        }
-        #result {
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(92, 107, 192, 0.3);
             margin-top: 30px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            min-height: 100px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a3b1ff;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(40, 40, 70, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(92, 107, 192, 0.2);
+        }
+        
+        .step:hover {
+            transform: translateY(-10px);
+            background: rgba(50, 50, 90, 0.7);
+        }
+        
+        .step i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
+        }
+        
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #f8f9fa;
+        }
+        
+        .step p {
+            color: #c1c8ff;
+            line-height: 1.6;
+        }
+        
+        .form-container {
+            background: rgba(30, 30, 55, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #a3b1ff;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #3a3a5c;
+            background: rgba(20, 20, 35, 0.7);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+        }
+        
+        .qr-container {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+            padding: 30px;
+            background: rgba(25, 25, 45, 0.5);
+            border-radius: 15px;
+            border: 1px dashed rgba(76, 201, 240, 0.4);
+        }
+        
+        #qrcode {
+            width: 250px;
+            height: 250px;
+            display: flex;
             justify-content: center;
             align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
         }
-        .heart {
-            font-size: 60px;
-            color: red;
+        
+        .btn {
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             margin: 10px;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            animation: heartbeat 1s infinite;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
         }
-        .special-result {
-            font-size: 2.5rem;
-            color: #e91e63;
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            animation: pulse 0.5s infinite alternate;
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
         }
-        .fireworks {
-            position: fixed;
-            top: 0;
-            left: 0;
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-download {
+            background: linear-gradient(to right, #4cc9f0, #4895ef);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(to right, #f72585, #b5179e);
+        }
+        
+        .btn i {
+            font-size: 1.2rem;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .instructions {
+            background: rgba(30, 30, 55, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .instructions h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
+            text-align: center;
+        }
+        
+        .instructions ol {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #c1c8ff;
+        }
+        
+        .instructions p {
+            font-style: italic;
+            text-align: center;
+            color: #a3b1ff;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(92, 107, 192, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #a3b1ff;
+            font-size: 1rem;
+            padding: 20px;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-            display: none;
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-                width: 90%;
+        @media (max-width: 768px) {
+            .steps {
+                flex-direction: column;
             }
+            
+            .step {
+                margin: 10px 0;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+        }
+        
+        @media (max-width: 480px) {
             h1 {
                 font-size: 1.8rem;
             }
-            input {
-                width: 90%;
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="fireworks" id="fireworks"></div>
-    
     <div class="container">
-        <h1>💖 Özel Aşk Testi 💖</h1>
-        <p>İsimlerinizi yazın, aşk yüzdenizi öğrenin!</p>
+        <header>
+            <h1><i class="fas fa-qrcode"></i> GitHub Sayfası için QR Kod Oluşturucu</h1>
+            <p class="subtitle">GitHub Pages'te barındırdığınız web sitenizin URL'sini girin, anında QR kodu oluşturun ve kolayca paylaşın!</p>
+        </header>
         
-        <div class="input-group">
-            <input type="text" id="name1" placeholder="Birinci isim" required>
-            <input type="text" id="name2" placeholder="İkinci isim" required>
+        <div class="steps">
+            <div class="step">
+                <i class="fas fa-link"></i>
+                <h3>1. GitHub URL'si</h3>
+                <p>GitHub Pages sitenizin URL'sini aşağıdaki alana girin</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-qrcode"></i>
+                <h3>2. QR Kod Oluştur</h3>
+                <p>"QR Kod Oluştur" butonuna tıklayın</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-download"></i>
+                <h3>3. İndirin & Paylaşın</h3>
+                <p>Oluşan QR kodunu indirin ve paylaşın</p>
+            </div>
         </div>
         
-        <button onclick="calculateLove()">Aşkımızı Hesapla!</button>
+        <div class="form-container">
+            <div class="input-group">
+                <label for="github-url"><i class="fas fa-globe"></i> GitHub Sayfası URL'si:</label>
+                <input type="url" id="github-url" placeholder="https://kullaniciadiniz.github.io/repositoriniz/" value="">
+            </div>
+            
+            <div class="button-group">
+                <button class="btn" id="generate-btn">
+                    <i class="fas fa-bolt"></i> QR Kod Oluştur
+                </button>
+                <button class="btn btn-reset" id="reset-btn">
+                    <i class="fas fa-redo"></i> Sıfırla
+                </button>
+            </div>
+        </div>
         
-        <div id="result"></div>
-        <div id="heart" class="heart" style="display: none;">❤️</div>
+        <div class="qr-container">
+            <div id="qrcode">
+                <p style="color: #666; text-align: center;">QR kodunuz burada görünecek</p>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-download" id="download-btn" disabled>
+                    <i class="fas fa-download"></i> QR Kodunu İndir
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2><i class="fas fa-info-circle"></i> Nasıl Kullanılır?</h2>
+            <ol>
+                <li>GitHub Pages sitenizin URL'sini üstteki kutuya girin (örnek: https://kullaniciadiniz.github.io/repositoriniz/)</li>
+                <li>"QR Kod Oluştur" butonuna tıklayın</li>
+                <li>Oluşan QR kodu görüntülenecektir</li>
+                <li>"QR Kodunu İndir" butonuna tıklayarak PNG formatında indirin</li>
+                <li>İndirdiğiniz QR kodu yazdırabilir, sosyal medyada paylaşabilir veya web sitenize ekleyebilirsiniz</li>
+            </ol>
+            <p>Artık kullanıcılar telefonlarıyla QR kodu tarayarak sitenize kolayca erişebilir!</p>
+        </div>
     </div>
+    
+    <footer>
+        <p>GitHub QR Kod Oluşturucu | © 2023 Tüm hakları saklıdır</p>
+    </footer>
 
     <script>
-        function calculateLove() {
-            const name1 = document.getElementById("name1").value.trim().toLowerCase();
-            const name2 = document.getElementById("name2").value.trim().toLowerCase();
+        document.addEventListener('DOMContentLoaded', function() {
+            const githubUrlInput = document.getElementById('github-url');
+            const generateBtn = document.getElementById('generate-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const qrcodeDiv = document.getElementById('qrcode');
             
-            if (!name1 || !name2) {
-                alert("Lütfen her iki ismi de girin!");
-                return;
-            }
+            let qrcode = null;
             
-            const resultElement = document.getElementById("result");
-            const heartElement = document.getElementById("heart");
-            const fireworks = document.getElementById("fireworks");
+            // Örnek URL ekle (kullanıcı adını ve repo adını değiştirin)
+            githubUrlInput.value = "https://kullaniciadiniz.github.io/repositoriniz/";
             
-            // Özel kombinasyonlar için kontrol
-            if ((name1 === "atakan" && name2 === "ela") || 
-                (name1 === "ela" && name2 === "atakan")) {
+            generateBtn.addEventListener('click', function() {
+                const url = githubUrlInput.value.trim();
                 
-                resultElement.innerHTML = `
-                    <div class="special-result">Atakan ❤️ Ela</div>
-                    <div>Aşk Yüzdeniz: %999999999999</div>
-                    <div style="color: #e91e63; margin-top: 10px;">Bu bir efsane! 💫</div>
-                `;
-                heartElement.style.display = "block";
-                fireworks.style.display = "block";
-                createFireworks();
-                return;
-            }
-            
-            if ((name1 === "irem" && name2 === "ela") || 
-                (name1 === "ela" && name2 === "irem")) {
+                if (!url) {
+                    alert('Lütfen bir GitHub URL girin!');
+                    return;
+                }
                 
-                resultElement.innerHTML = `
-                    <div class="special-result">İrem ❤️ Ela</div>
-                    <div>Aşk Yüzdeniz: %0</div>
-                    <div style="color: #9e9e9e; margin-top: 10px;">Üzgünüm... 😢</div>
-                `;
-                heartElement.style.display = "none";
-                fireworks.style.display = "none";
-                return;
-            }
-            
-            // Normal durumlar için rastgele hesaplama
-            const lovePercentage = Math.floor(Math.random() * 101);
-            
-            resultElement.innerHTML = `
-                <div>${capitalizeFirstLetter(name1)} ❤️ ${capitalizeFirstLetter(name2)}</div>
-                <div>Aşk Yüzdeniz: ${lovePercentage}%</div>
-            `;
-            
-            // Sonucu renklendir
-            if (lovePercentage > 80) {
-                resultElement.style.color = "#e91e63";
-            } else if (lovePercentage > 50) {
-                resultElement.style.color = "#ff9800";
-            } else {
-                resultElement.style.color = "#9e9e9e";
-            }
-            
-            heartElement.style.display = "block";
-            fireworks.style.display = "none";
-        }
-        
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-        
-        function createFireworks() {
-            const fireworks = document.getElementById('fireworks');
-            fireworks.innerHTML = '';
-            
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            const count = 150;
-            
-            for (let i = 0; i < count; i++) {
-                const firework = document.createElement('div');
-                firework.style.position = 'absolute';
-                firework.style.width = '6px';
-                firework.style.height = '6px';
-                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                firework.style.borderRadius = '50%';
-                firework.style.left = `${Math.random() * 100}%`;
-                firework.style.top = `${Math.random() * 100}%`;
-                firework.style.boxShadow = '0 0 10px 2px rgba(255,255,255,0.8)';
-                firework.style.animation = `explode ${1 + Math.random() * 2}s ease-out forwards`;
-                
-                const animation = document.createElement('style');
-                animation.innerHTML = `
-                    @keyframes explode {
-                        0% { transform: translate(0,0); opacity: 1; }
-                        100% { transform: translate(${Math.random() * 400 - 200}px, ${Math.random() * 400 - 200}px); opacity: 0; }
+                // Geçerli bir GitHub Pages URL'si mi kontrol et
+                if (!url.startsWith('https://') || !url.includes('github.io')) {
+                    if (!confirm('Bu geçerli bir GitHub Pages URL\'si gibi görünmüyor. Yine de devam etmek istiyor musunuz?')) {
+                        return;
                     }
-                `;
+                }
                 
-                fireworks.appendChild(firework);
-                fireworks.appendChild(animation);
-            }
-        }
+                // Önceki QR kodunu temizle
+                qrcodeDiv.innerHTML = '';
+                
+                // Yeni QR kod oluştur
+                qrcode = new QRCode(qrcodeDiv, {
+                    text: url,
+                    width: 250,
+                    height: 250,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                
+                // İndirme butonunu aktif et
+                downloadBtn.disabled = false;
+            });
+            
+            downloadBtn.addEventListener('click', function() {
+                if (!qrcode) {
+                    alert('Önce bir QR kodu oluşturmalısınız!');
+                    return;
+                }
+                
+                const canvas = qrcodeDiv.querySelector('canvas');
+                if (!canvas) {
+                    alert('QR kodu oluşturulamadı. Lütfen tekrar deneyin.');
+                    return;
+                }
+                
+                // Canvas'ı PNG'ye dönüştür
+                const link = document.createElement('a');
+                link.download = 'github-qrcode.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                githubUrlInput.value = '';
+                qrcodeDiv.innerHTML = '<p style="color: #666; text-align: center;">QR kodunuz burada görünecek</p>';
+                downloadBtn.disabled = true;
+                qrcode = null;
+            });
+        });
     </script>
 </body>
 </html>
